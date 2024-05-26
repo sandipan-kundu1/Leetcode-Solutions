@@ -2,20 +2,14 @@ class Solution {
 public:
     int maxSubArray(vector<int>& nums) {
         //Kadane's Algorithm
-        int sum=0,maxi=INT_MIN;
-        // int start,astart,aend;
-        for(int i=0;i<nums.size();i++){
-            if(sum<0){
-                sum=0;
-                // start=i;
-            }
-            sum+=nums[i];
-            if(sum>maxi){
-                maxi=sum;
-                // astart=start;
-                // aend=i;
-            }
-
+        int sum=0;
+        int maxi = nums[0];
+        for(auto it:nums)
+        {
+            sum+=it;
+            maxi= max(maxi,sum);
+            if(sum<0)
+            sum=0;
         }
         return maxi;
     }
