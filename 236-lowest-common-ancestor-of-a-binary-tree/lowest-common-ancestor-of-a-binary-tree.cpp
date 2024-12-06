@@ -16,8 +16,8 @@ public:
             return root;
 
         // Recur for left and right subtrees
-        TreeNode* leftLCA = lowestCommonAncestor(root->left, p, q);
-        TreeNode* rightLCA = lowestCommonAncestor(root->right, p, q);
+        TreeNode* leftLCA = lca(root->left, p, q);
+        TreeNode* rightLCA = lca(root->right, p, q);
 
         // If both left and right subtrees return non-null values, root is the LCA
         if (leftLCA != NULL && rightLCA != NULL) 
