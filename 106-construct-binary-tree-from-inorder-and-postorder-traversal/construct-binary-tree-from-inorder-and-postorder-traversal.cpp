@@ -11,28 +11,37 @@
  */
 class Solution {
 public:
-    TreeNode* build(vector<int>& inorder,int instart,int inend,vector<int>& postorder,int poststart,int postend,unordered_map<int, int>& inmap)
-    {
-        if(instart>inend || poststart>postend)
-        return NULL;
+    TreeNode* build(vector<int>& inorder, int instart, int inend, vector<int>& postorder, int poststart, int postend, unordered_map<int, int>& inmap) {
+        // Base case: invalid range
+        if (instart > inend || poststart > postend)
+            return nullptr;
 
-        TreeNode* root=new TreeNode(postorder[postend]);
-        int inroot=inmap[root->val];
-        int inleft=inroot-instart;
-        root->left=build(inorder, instart, inroot - 1,postorder,poststart,poststart+inleft-1, inmap);
-        root->right=build(inorder, inroot + 1, inend,postorder,poststart+inleft ,postend-1, inmap);
+        // The root is the last element of the current postorder range
+        TreeNode* root = new TreeNode(postorder[postend]);
+
+        // Find the root's position in the inorder traversal
+        int inroot = inmap[root->val];
+        int inleft = inroot - instart;
+
+        // Recursively build left and right subtrees
+        root->left = build(inorder, instart, inroot - 1, postorder, poststart, poststart + inleft - 1, inmap);
+        root->right = build(inorder, inroot + 1, inend, postorder, poststart + inleft, postend - 1, inmap);
+
         return root;
-    } 
+    }
 
     TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
-        if (postorder.size() != inorder.size())
+        // If sizes do not match, return null
+        if (inorder.size() != postorder.size())
             return nullptr;
-        int size=inorder.size();
+
+        // Create a hashmap for quick index lookup
         unordered_map<int, int> inmap;
         for (int i = 0; i < inorder.size(); i++) {
             inmap[inorder[i]] = i;
         }
 
-        return build(inorder,0,size-1,postorder,0,size-1,inmap);
+        // Build the tree
+        return build(inorder, 0, inorder.size() - 1, postorder, 0, postorder.size() - 1, inmap);
     }
 };
