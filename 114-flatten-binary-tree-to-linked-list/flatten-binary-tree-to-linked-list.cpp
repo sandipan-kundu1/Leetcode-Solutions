@@ -24,8 +24,11 @@ public:
             st.push(temp->right);
             if(temp->left)
             st.push(temp->left);
-            if(!st.empty())
+
+            if(!st.empty())  //last node,we must check stack emptyness, otherwise it'll go invalid
             temp->right=st.top();
+            else 
+            temp->right=NULL;
             temp->left=NULL;
         }
 
