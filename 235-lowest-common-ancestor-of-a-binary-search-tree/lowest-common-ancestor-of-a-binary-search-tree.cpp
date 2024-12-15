@@ -11,21 +11,16 @@
 class Solution {
 public:
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        if (root == NULL) return NULL; // Base case
-        
-        // If root is either p or q, it is the LCA
-        if (root->val == p->val || root->val == q->val)
-            return root;
-        
-        // If p and q are on opposite sides of root, root is the LCA
-        if ((p->val < root->val && q->val > root->val) || (q->val < root->val && p->val > root->val))
-            return root;
-
-        // If both p and q are smaller, LCA is in the left subtree
-        if (p->val < root->val && q->val < root->val)
-            return lowestCommonAncestor(root->left, p, q);
-        
-        // If both p and q are greater, LCA is in the right subtree
-        return lowestCommonAncestor(root->right, p, q);
+        int small = min(p->val, q->val);
+        int large = max(p->val, q->val);
+        while (root != nullptr) {
+            if (root->val > large) // p, q belong to the left subtree
+                root = root->left;
+            else if (root->val < small) // p, q belong to the right subtree
+                root = root->right;
+            else // Now, small <= root.val <= large -> This root is the LCA between p and q
+                return root;
+        }
+        return nullptr;
     }
 };
