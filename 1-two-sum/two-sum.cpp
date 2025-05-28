@@ -1,18 +1,25 @@
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-        // Hashmap approach(better)   for brute force nested loop case
-        map<int, int> mpp;
-        for (int i = 0; i < nums.size(); i++) {
-            int more = target - nums[i];
-
-            if (mpp.find(more) != mpp.end()) {
-
-                return {mpp[more], i};
+        int n=nums.size();
+        vector<pair<int,int>> v(n);
+        for(int i=0;i<n;i++)
+            {
+                v[i].first=nums[i];
+                v[i].second=i;
             }
-            mpp[nums[i]] = i;
-        }
-        // return ans;
-        return {-1, -1};
+        sort(v.begin(),v.end());
+        int i=0,j=n-1;
+        while(i<j)
+            {
+                int sum=v[i].first+v[j].first;
+                if(sum==target)
+                    break;
+                else if(sum<target)
+                    i++;
+                else
+                    j--;
+            }
+        return {v[i].second,v[j].second};
     }
 };
