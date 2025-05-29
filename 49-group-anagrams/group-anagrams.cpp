@@ -10,7 +10,7 @@ public:
                     freq[c-'a']++;
                 string fr;
                 for(int i=0;i<26;i++)
-                    fr+='#'+to_string(freq[i]);
+                    fr+='#'+to_string(freq[i]); //# used to differentiate each characters count e.g. 1b 10d , 10b, 1c  both forms 01010000.. same string.
                 hash[fr].push_back(s);
             }
         vector<vector<string>> res;
