@@ -8,7 +8,7 @@ public:
             hash[s[r]]++;
             maxf=max(maxf,hash[s[r]]);
             changes=r-l+1 - maxf;
-            while(changes>k){
+            if(changes>k){
                 hash[s[l]]--;
                 l++;
                 for(auto it:hash)
