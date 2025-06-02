@@ -31,17 +31,13 @@ public:
                 }
                 cur=cur->next;
             }
-        while(temp1)
+        if(temp1)
             {
                 cur->next=temp1;
-                temp1=temp1->next;
-                cur=cur->next;
             }
-        while(temp2)
+        if(temp2)
             {
                 cur->next=temp2;
-                temp2=temp2->next;
-                cur=cur->next;
             }
         return dummy.next;
     }
