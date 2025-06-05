@@ -24,7 +24,7 @@ public:
         return 0;
         int n=coins.size();
         vector<vector<int>> dp(n,vector<int>(amount+1,-1));
-        if(f(coins.size()-1,coins,amount,dp)!=1e9)
+        if(f(coins.size()-1,coins,amount,dp)<1e9)
         return f(coins.size()-1,coins,amount,dp);
         return -1;
     }
