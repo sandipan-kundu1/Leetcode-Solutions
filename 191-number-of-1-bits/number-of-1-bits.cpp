@@ -2,9 +2,9 @@ class Solution {
 public:
     int hammingWeight(int n) {
         int cnt=0;
-        while(n){
-            n=n& (n-1);
-            cnt++; //clearing rightmost bit in each iteration, counting the iterations to get no of set bits
+        while(n>=1){
+            if(n&1) cnt++;
+            n=n>>1;
         }
         return cnt;
     }
