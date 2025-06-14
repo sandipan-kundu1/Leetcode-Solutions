@@ -1,38 +1,30 @@
 class Solution {
-    void dfs(int i, int j, vector<vector<char>>& grid, vector<vector<int>>& vis)
+public:
+    void dfs(int i,int j,vector<vector<int>> &vis,vector<vector<char>>& grid)
     {
         vis[i][j]=1;
-        int n = grid.size();
-        int m = grid[0].size();
-        int directions[4][2] = {{0,1},{0,-1},{1,0},{-1,0}};
-        for(int k = 0; k < 4; k++)
-        {
-            int x = i + directions[k][0];
-            int y = j + directions[k][1];
-            if(x>=0 && x<n && y>=0 && y<m && grid[x][y]=='1' && vis[x][y]==0)
-            {
-                dfs(x,y,grid,vis);
-                
-            }
-        }
+        int m=grid.size(),n=grid[0].size();
+        if(i<m-1 &&  grid[i+1][j]=='1' && !vis[i+1][j])  dfs(i+1,j,vis,grid);
+        if(i>0 && grid[i-1][j]=='1' && !vis[i-1][j])    dfs(i-1,j,vis,grid);
+        if(j<n-1 && grid[i][j+1]=='1' && !vis[i][j+1])  dfs(i,j+1,vis,grid);
+        if(j>0 && grid[i][j-1]=='1' && !vis[i][j-1])    dfs(i,j-1,vis,grid);
     }
-public:
     int numIslands(vector<vector<char>>& grid) {
-        int n=grid.size();
-        int m=grid[0].size();
-        int count=0;
-        vector<vector<int>> vis(n,vector<int>(m,0));
-        for(int i=0;i<n;i++)
+        int m=grid.size(),n=grid[0].size();
+        int cnt=0;
+        vector<vector<int>> vis(m,vector<int>(n,0));
+        //find number of components of graph
+        for(int i=0;i<m;i++)
         {
-            for(int j=0;j<m;j++)
+            for(int j=0;j<n;j++)
             {
                 if(grid[i][j]=='1' && !vis[i][j])
                 {
-                    count++;
-                    dfs(i,j,grid,vis);
+                    dfs(i,j,vis,grid);
+                    cnt++;
                 }
             }
         }
-        return count;
+        return cnt;
     }
 };
