@@ -2,7 +2,7 @@ class Solution {
 public:
     int maxProduct(vector<int>& nums) {
         int n=nums.size(),curmax=1,curmin=1,res=INT_MIN;
-        for(int i:nums)
+        for(int i:nums)   //kadane algo
         {
             if(curmax==0)  curmax=1;
             if(curmin==0)  curmin=1;
