@@ -30,7 +30,7 @@ public:
         {
             int ind=prefix[i]-'a';
             if(!temp->links[ind])
-            return false;
+            return 0;
             temp=temp->links[ind];
         }
         return temp->countPrefix;
