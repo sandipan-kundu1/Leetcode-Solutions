@@ -1,22 +1,8 @@
 struct Node{
     Node* links[26];
     bool flag=false;
-
-    bool containsChar(char c)
-    {
-        return links[c-'a']!=NULL;
-    }
-    
-    void put(char c,Node* node)
-    {
-        links[c-'a']=node;
-    }
-    
-    Node* getNode(char c)
-    {
-        return links[c-'a'];
-    }
 };
+
 class Trie {
     Node* root;
 public:
@@ -28,11 +14,12 @@ public:
         Node* temp=root;
         for(int i=0;i<word.size();i++)
         {
-            if(!temp->containsChar(word[i]))
+            int ind=word[i]-'a';
+            if(!temp->links[ind])
             {
-                temp->put(word[i],new Node());
+                temp->links[ind]=new Node();
             }
-            temp=temp->getNode(word[i]);
+            temp=temp->links[ind];
         }
         temp->flag=true;
     }
@@ -41,9 +28,10 @@ public:
         Node* temp=root;
         for(int i=0;i<word.size();i++)
         {
-            if(!temp->containsChar(word[i]))
+            int ind=word[i]-'a';
+            if(!temp->links[ind])
             return false;
-            temp=temp->getNode(word[i]);
+            temp=temp->links[ind];
         }
         return temp->flag;
     }
@@ -52,9 +40,10 @@ public:
         Node* temp=root;
         for(int i=0;i<prefix.size();i++)
         {
-            if(!temp->containsChar(prefix[i]))
+            int ind=prefix[i]-'a';
+            if(!temp->links[ind])
             return false;
-            temp=temp->getNode(prefix[i]);
+            temp=temp->links[ind];
         }
         return true;
     }
