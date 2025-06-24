@@ -11,19 +11,17 @@
  */
 class Solution {
 public:
-    bool issym(TreeNode* p,TreeNode* q)
+    bool dfs(TreeNode *l,TreeNode* r)
     {
-        if(p==NULL || q==NULL)
-        return p==q;
-
-        if(p->val!=q->val)
+        if(!l || !r)//if both null true,one null false
+        return l==r;
+        if(l->val!=r->val)
         return false;
-        return issym(p->left,q->right) && issym(p->right,q->left);
+        return dfs(l->left,r->right) && dfs(l->right,r->left);//as mirror image comparing left's left with right's right,left's right with right'sleft
     }
     bool isSymmetric(TreeNode* root) {
-        if(root==NULL)
-        return true;
-
-        return issym(root->left,root->right);
+        //check traversal (root left right) of left subtree and (root right left) of right subtree
+        if(!root)   return true;
+        return dfs(root->left,root->right);
     }
 };
