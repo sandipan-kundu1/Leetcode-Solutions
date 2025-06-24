@@ -11,23 +11,31 @@
  */
 class Solution {
 public:
-    void rightview(TreeNode* node,vector<int> &ds,int level)
-    {
-        if(node==NULL)
-        return;
-
-        if(level==ds.size())
-        ds.push_back(node->val);
-
-        rightview(node->right,ds,level+1);
-        rightview(node->left,ds,level+1);
-    }
     vector<int> rightSideView(TreeNode* root) {
-        vector<int> ds;
-        if(root==NULL)
-        return ds;
-
-        rightview(root,ds,0);
-        return ds;
+        vector<int> ans;
+        if(!root)   return ans;
+        queue<TreeNode*> q;
+        q.push(root);
+        while(!q.empty())
+        {
+            int size=q.size();
+            int right;
+            for(int i=0;i<size;i++)
+            {
+                auto node=q.front();
+                q.pop();
+                right=node->val;
+                if(node->left)  
+                {
+                    q.push(node->left);
+                }
+                if(node->right)
+                {
+                    q.push(node->right);
+                }   
+            }
+            ans.push_back(right);
+        }
+        return ans;
     }
 };
