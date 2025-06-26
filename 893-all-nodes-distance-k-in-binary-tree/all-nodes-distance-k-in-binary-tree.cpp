@@ -9,76 +9,55 @@
  */
 class Solution {
 public:
-    void addparent(TreeNode* root,unordered_map<TreeNode*, TreeNode*> &parent)
+    unordered_map<TreeNode*,TreeNode*> parent;
+    void dfs(TreeNode* root)
     {
-        if(root==NULL)
-        return;
+        if(!root)   return;
+        if(!root->left && !root->right) return;
+        if(root->left)
+        parent[root->left]=root;
+        if(root->right)
+        parent[root->right]=root;
+
+        dfs(root->left);
+        dfs(root->right);
+    }
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+        dfs(root);
         queue<TreeNode*> q;
-        q.push(root);
-        while(!q.empty())
+        q.push(target);
+        unordered_map<TreeNode*,bool> vis;
+        vis[target]=true;
+        for(int i=0;i<k;i++)
         {
             int size=q.size();
             for(int i=0;i<size;i++)
             {
-                TreeNode* temp=q.front();
+                auto node=q.front();
                 q.pop();
-                if(temp->left){ parent[temp->left]=temp;  q.push(temp->left);}
-                
-                if(temp->right) { parent[temp->right]=temp;  q.push(temp->right);}
-            
+                if(node->left && !vis[node->left])
+                {
+                    q.push(node->left);
+                    vis[node->left]=true;
+                }  
+                if(node->right && !vis[node->right])
+                {
+                    q.push(node->right);
+                    vis[node->right]=true;
+                } 
+                if(node!=root && !vis[parent[node]])
+                {
+                    q.push(parent[node]);
+                    vis[parent[node]]=true;
+                }  
             }
         }
-        
-    }
-    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
         vector<int> res;
-        if(root==NULL)
-        return res;
-        unordered_map<TreeNode*, TreeNode*> parent;
-        addparent(root,parent);
-        int dis=0;
-        queue<TreeNode*> qu;
-        qu.push(target);
-        int flag=0;
-        unordered_map<TreeNode*,bool> visited;
-        visited[target]=true;
-        while(!qu.empty())
+        while(!q.empty())
         {
-            int size=qu.size();
-            flag=0;
-            if(dis==k)
-            break;
-            for(int i=0;i<size;i++)
-            {
-                TreeNode* t=qu.front();
-                qu.pop();
-                if(t->left && !visited[t->left])
-                {
-                    flag=1;
-                    qu.push(t->left);
-                    visited[t->left]=true;
-                }
-                if(t->right && !visited[t->right])
-                {
-                    flag=1;
-                    qu.push(t->right);
-                    visited[t->right]=true;
-                }
-                if(parent[t] && !visited[parent[t]])
-                {
-                    flag=1;
-                    qu.push(parent[t]);
-                    visited[parent[t]]=true;
-                }
-            }
-            if(flag)
-            dis++;
-        }
+            res.push_back(q.front()->val);
+            q.pop();
 
-        while(!qu.empty())
-        {
-            res.push_back(qu.front()->val);
-            qu.pop();
         }
         return res;
     }
