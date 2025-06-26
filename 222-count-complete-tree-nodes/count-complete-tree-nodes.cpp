@@ -11,27 +11,35 @@
  */
 class Solution {
 public:
-    int getHeight(TreeNode* root, bool left) {
-        int height = 0;
-        while (root) {
-            height++;
-            root = left ? root->left : root->right;
-        }
-        return height;
-    }
-
     int countNodes(TreeNode* root) {
-        if (!root) return 0;
+        if(!root)   return 0;
+        int lh=heightleft(root);
+        int rh=heightright(root);
+        if(lh==rh)
+        return pow(2,lh)-1;
 
-        int leftHeight = getHeight(root, true);
-        int rightHeight = getHeight(root, false);
-
-        if (leftHeight == rightHeight) {
-            // Perfect binary tree formula
-            return (1 << leftHeight) - 1; // 2^height - 1
-        } else {
-            // Recursively count left and right subtrees
-            return 1 + countNodes(root->left) + countNodes(root->right);
+        return 1+countNodes(root->left)+countNodes(root->right);
+    }
+    int heightleft(TreeNode* root)
+    {
+        if(!root)   return 0;
+        int h=0;
+        while(root)
+        {
+            h++;
+            root=root->left;
         }
+        return h;
+    }
+    int heightright(TreeNode* root)
+    {
+        if(!root)   return 0;
+        int h=0;
+        while(root)
+        {
+            h++;
+            root=root->right;
+        }
+        return h;
     }
 };
