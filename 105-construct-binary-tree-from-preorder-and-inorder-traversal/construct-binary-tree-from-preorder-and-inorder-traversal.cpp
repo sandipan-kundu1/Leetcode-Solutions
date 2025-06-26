@@ -12,26 +12,27 @@
 class Solution {
 public:
     unordered_map<int,int> hash;
-    TreeNode* build(int instart,int inend,int prestart,int preend,vector<int>& preorder, vector<int>& inorder)
+    void build(TreeNode* &root,int instart,int inend,int prestart,int preend,vector<int>& preorder, vector<int>& inorder)
     {
         if(instart>inend || prestart>preend)
-        return NULL;
+        return;
 
-        TreeNode* root=new TreeNode(preorder[prestart]);
+        root=new TreeNode(preorder[prestart]);
         int idx=hash[root->val];    //root's index in inorder
         int inleft=idx-instart;
 
-        root->left=build(instart,idx-1,prestart+1,prestart+inleft,preorder,inorder);
-        root->right=build(idx+1,inend,prestart+inleft+1,preend,preorder,inorder);
-
-        return root;
+        build(root->left,instart,idx-1,prestart+1,prestart+inleft,preorder,inorder);
+        build(root->right,idx+1,inend,prestart+inleft+1,preend,preorder,inorder);
     }
+
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        TreeNode* root;
         int n=inorder.size();
         for(int i=0;i<n;i++)
         {
             hash[inorder[i]]=i;
         }
-        return build(0,n-1,0,n-1,preorder,inorder);
+        build(root,0,n-1,0,n-1,preorder,inorder);
+        return root;
     }
 };
