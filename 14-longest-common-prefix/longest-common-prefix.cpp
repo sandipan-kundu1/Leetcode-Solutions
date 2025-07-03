@@ -1,57 +1,19 @@
-struct Node{
-    Node* links[26];
-    int countPrefix=0;
-};
-
-class Trie {
-    Node* root;
-public:
-    Trie() {
-        root=new Node();
-    }
-    
-    void insert(string word) {
-        Node* temp=root;
-        for(int i=0;i<word.size();i++)
-        {
-            int ind=word[i]-'a';
-            if(!temp->links[ind])
-            {
-                temp->links[ind]=new Node();
-            }
-            temp=temp->links[ind];
-            temp->countPrefix++;
-        }
-    }
-    
-    int countStarting(string prefix) {
-        Node* temp=root;
-        for(int i=0;i<prefix.size();i++)
-        {
-            int ind=prefix[i]-'a';
-            if(!temp->links[ind])
-            return 0;
-            temp=temp->links[ind];
-        }
-        return temp->countPrefix;
-    }
-};
-
 class Solution {
 public:
     string longestCommonPrefix(vector<string>& strs) {
-        Trie trie;
-        for(string s:strs)
-        trie.insert(s);
-        string prefix="",word=strs[0],ans="";
-        for(int i=0;i<word.size();i++)
+        string common="";
+        sort(strs.begin(),strs.end());
+        string mini=strs[0];
+        for(int i=0;i<mini.size();i++)
         {
-            prefix+=word[i];
-            if(trie.countStarting(prefix)==strs.size())
-            ans=prefix;
-            else
-            break;
+            char c=mini[i];
+            for(int j=1;j<strs.size();j++)
+            {
+                if(i>=strs[j].size() || strs[j][i]!=c)
+                return common;
+            }
+            common+=c;
         }
-        return ans;
+        return common;
     }
 };
