@@ -1,42 +1,21 @@
 class Solution {
 public:
-    // int f(int i,int j,vector<vector<int>>& dp,string text1, string text2)
-    // {
-    //     if(i<0 || j<0)
-    //     return 0;
-    //     if(i==0 && j==0 && text1[i]==text2[j])
-    //     return 1;
-    //     if(dp[i][j]!=-1)
-    //     return dp[i][j];
-
-    //     int match=0,notmatch=0;
-    //     if(text1[i]==text2[j])
-    //     match=1+f(i-1,j-1,dp,text1,text2);
-    //     else
-    //     notmatch=max(f(i-1,j,dp,text1,text2), f(i,j-1,dp,text1,text2));
-
-    //     return dp[i][j]=max(match,notmatch);
-    // }
+    int dp[1002][1002];
     int longestCommonSubsequence(string text1, string text2) {
-        int n1=text1.size(),n2=text2.size();
-        vector<vector<int>> dp(n1,vector<int>(n2,0));
-
-        dp[0][0]=(text1[0]==text2[0]?1:0);
-        for(int i=0;i<n1;i++)
+        int n=text1.size(),m=text2.size();
+        memset(dp,0,sizeof(dp));
+        for(int i=1;i<=n;i++)
         {
-            for(int j=0;j<n2;j++)
+            for(int j=1;j<=m;j++)
             {
                 int match=0,notmatch=0;
-                if(text1[i]==text2[j])
-                match=1+((i>0 && j>0)?dp[i-1][j-1]:0);
+                if(text1[i-1]==text2[j-1])
+                match=1+dp[i-1][j-1];
                 else
-                notmatch=max(
-                    ((i>0)? dp[i-1][j] :0), 
-                    ((j>0)? dp[i][j-1] :0)
-                );
-                dp[i][j]=max(match,notmatch);
+                notmatch=max(dp[i][j-1], dp[i-1][j]);
+                dp[i][j]=match+notmatch;
             }
         }
-        return dp[n1-1][n2-1];
+        return dp[n][m];
     }
 };
