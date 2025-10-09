@@ -2,34 +2,41 @@ class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
         int n=nums.size();
-        sort(nums.begin(),nums.end());
         vector<vector<int>> res;
-        int i=0;
+        if(n<3) return res;
+        sort(nums.begin(),nums.end());
+        
         for(int i=0;i<n;i++)
+        {
+            if(i>0 && nums[i]==nums[i-1])    continue;
+            int target=-nums[i];
+            int left=i+1,right=n-1;
+            while(left<right)
             {
-                int target=-nums[i];
-                if(i>0 && nums[i]==nums[i-1])
-                continue;
-                int j=i+1,k=n-1;
-                while(j<k)
-                    {
-                        int sum=nums[j]+nums[k];
-                        if(sum==target)
-                        {
-                            res.push_back({nums[i],nums[j],nums[k]});
-                            j++;
-                            k--;
-                            while(j<k && nums[j-1]==nums[j])
-                                j++;
-                            while(j<k && nums[k]==nums[k+1])
-                                k--;
-                        }
-                        else if(sum<target)
-                        j++;
-                        else
-                        k--;
-                    }
+                int l=nums[left],r=nums[right];
+                int sum=l+r;
+                if(target==sum)
+                {
+                    res.push_back({nums[i],nums[left],nums[right]});
+                    while(left<right && nums[left]==l)
+                    left++;
+                    while(left<right && nums[right]==r)
+                    right--;
+                }               
+                else if(sum<target)
+                {
+                    
+                    left++;
+                }
+                else
+                {
+                    
+                    right--;
+                }
             }
-        return res;
+        }
+        // auto new_end=unique(res.begin(),res.end());
+        // res.erase(new_end,res.end());
+        return res;                            
     }
 };
