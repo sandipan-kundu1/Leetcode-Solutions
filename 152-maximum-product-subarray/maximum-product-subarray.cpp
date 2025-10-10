@@ -1,16 +1,15 @@
 class Solution {
 public:
     int maxProduct(vector<int>& nums) {
-        int n=nums.size(),curmax=1,curmin=1,res=INT_MIN;
-        for(int i:nums)   //kadane algo
+        int prefix=1,suffix=1,maxi=INT_MIN,n=nums.size();
+        for(int i=0;i<nums.size();i++)
         {
-            if(curmax==0)  curmax=1;
-            if(curmin==0)  curmin=1;
-            int temp=i*curmax;
-            curmax=max({temp,i*curmin,i});
-            curmin=min({temp,i*curmin,i});
-            res=max(curmax,res);
+            if(prefix==0)   prefix=1;
+            if(suffix==0)   suffix=1;
+            prefix*=nums[i];
+            suffix*=nums[n-i-1];
+            maxi=max({maxi,prefix,suffix});
         }
-        return res;
+        return maxi;
     }
 };
